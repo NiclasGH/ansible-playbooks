@@ -1,6 +1,8 @@
 ---
-- ansible.builtin.include_tasks: fedora.yml
+- ansible.builtin.include_tasks: os_family/fedora.yml
   when: ansible_facts['os_family']|lower == 'redhat'
+
+- ansible.builtin.include_tasks: git.yml
 
 # JetBrainsMono
 - name: Check JetBrainsMono hasn't been installed

@@ -1,0 +1,42 @@
+---
+- name: Git user.name
+  community.general.git_config:
+    scope: global
+    name: user.name
+    value: "Niclas Kürschner"
+
+- name: Git user.email
+  community.general.git_config:
+    scope: global
+    name: user.email
+    value: "niclas.kuerschner@outlook.com"
+
+- name: Git pull.rebase
+  community.general.git_config:
+    scope: global
+    name: pull.rebase
+    value: true
+
+- name: Git core.autocrlf
+  community.general.git_config:
+    scope: global
+    name: core.autocrlf
+    value: false
+
+- name: Git core.editor
+  community.general.git_config:
+    scope: global
+    name: core.editor
+    value: "nvim"
+
+- name: Git push.autoSetupRemote
+  community.general.git_config:
+    scope: global
+    name: push.autoSetupRemote
+    value: true
+
+- name: Git init.defaultBranch
+  community.general.git_config:
+    scope: global
+    name: init.defaultBranch
+    value: "main"
