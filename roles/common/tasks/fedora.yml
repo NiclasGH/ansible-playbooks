@@ -1,0 +1,105 @@
+---
+# Docker
+- name: Install dnf-plugins.core
+  ansible.builtin.package:
+    name: dnf-plugins-core
+    state: present
+  become: true
+
+- name: Install docker repository
+  ansible.builtin.shell:
+    cmd: "dnf-3 config-manager --add-repo https://download.docker.com/linux/fedora/docker-ce.repo"
+  become: true
+
+- name: Install docker
+  ansible.builtin.package:
+    name: 
+      - docker-ce
+      - docker-ce-cli
+      - containerd.io
+      - docker-buildx-plugin
+      - docker-compose-plugin
+    state: latest
+  become: true
+
+- name: Add docker to autostart
+  ansible.builtin.systemd_service:
+    enabled: true
+    name: "docker"
+  become: true
+
+- name: Allow user to run docker commands
+  ansible.builtin.user:
+    name: "{{ user }}"
+    append: true
+    groups: 
+      - docker
+  become: true
+
+# ZSH
+- name: Install zsh and fzf
+  ansible.builtin.package:
+    name: 
+      - zsh
+      - fzf
+    state: latest
+  become: true
+
+- name: Set user shell to zsh
+  ansible.builtin.user:
+    name: "{{ user }}"
+    shell: /usr/bin/zsh
+  become: true
+
+- name: Check oh-my-zsh hasn't been installed
+  ansible.builtin.stat:
+    path: /home/{{ user }}/.oh-my-zsh
+  register: omz
+
+- name: Download ohmyzsh
+  when: not (omz.stat.isdir is defined and omz.stat.isdir)
+  ansible.builtin.get_url:
+    url: https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh
+    dest: "/home/{{ user }}/install.sh"
+    mode: '0755'
+
+- name: Install ohmyzsh
+  when: not (omz.stat.isdir is defined and omz.stat.isdir)
+  ansible.builtin.shell:
+    cmd: "/home/{{ user }}/install.sh --unattended"
+
+- name: Remove installation script
+  ansible.builtin.file:
+    state: absent
+    path: /home/{{ user }}/install.sh
+
+- name: Install zsh syntax hightlighting
+  ansible.builtin.git:
+    dest: /home/{{ user }}/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting
+    repo: 'https://github.com/zsh-users/zsh-syntax-highlighting.git'
+
+- name: Install zsh auto suggestions
+  ansible.builtin.git:
+    dest: /home/{{ user }}/.oh-my-zsh/custom/plugins/zsh-autosuggestions
+    repo: 'https://github.com/zsh-users/zsh-autosuggestions.git'
+
+- name: Configure zsh plugins
+  ansible.builtin.lineinfile:
+    path: /home/{{ user }}/.zshrc
+    regexp: '^plugins=\(git\)'
+    line: plugins=(git colorize zsh-autosuggestions zsh-syntax-highlighting)
+
+- name: Default zsh settings
+  ansible.builtin.blockinfile:
+    path: /home/{{ user }}/.zshrc
+    append_newline: true
+    prepend_newline: true
+    block: |
+      source <(fzf --zsh)
+      source ~/.bash_device
+      source ~/.bash_aliases
+      source ~/.bash_functions
+      export PATH=$PATH:$HOME/.cargo/bin
+      export PATH=$PATH:$HOME/.local/bin
+
+

@@ -1,0 +1,3 @@
+---
+- ansible.builtin.include_tasks: gnome.yml
+  when: desktop|lower == 'gnome'

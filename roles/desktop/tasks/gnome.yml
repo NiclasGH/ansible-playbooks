@@ -1,0 +1,30 @@
+---
+- name: Install psutil as requirement for dconf
+  ansible.builtin.package:
+    name: python3-psutil
+    state: present
+  become: true
+
+- name: Configure gnome to show all sources
+  community.general.dconf:
+    key: "/org/gnome/desktop/input-sources/show-all-sources"
+    value: true
+    state: present
+
+- name: Configure available keyboard layouts in Gnome
+  community.general.dconf:
+    key: "/org/gnome/desktop/input-sources/sources"
+    value: "[('xkb', 'eu'), ('xkb', 'de')]"
+    state: present
+
+- name: Disable Hot Corner
+  community.general.dconf:
+    key: "/org/gnome/desktop/interface/enable-hot-corners"
+    value: false
+    state: present
+
+- name: Enable dark mode
+  community.general.dconf:
+    key: "/org/gnome/desktop/interface/color-scheme"
+    value: "'prefer-dark'"
+    state: present
