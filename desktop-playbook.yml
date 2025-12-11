@@ -2,6 +2,7 @@
   hosts: testvm
   roles:
     - role: common
+    - role: fonts
     - role: desktop
   user: niclas-vm
   vars:

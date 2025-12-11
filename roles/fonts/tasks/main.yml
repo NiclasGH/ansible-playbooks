@@ -1,0 +1,46 @@
+---
+# JetBrainsMono
+- name: Check JetBrainsMono hasn't been installed
+  ansible.builtin.stat:
+    path: /usr/share/fonts/JetBrainsMono
+  register: jbm
+
+- name: Create JetBrainsMono Directory
+  when: not (jbm.stat.isdir is defined and jbm.stat.isdir)
+  ansible.builtin.file:
+    path: "/usr/share/fonts/JetBrainsMono"
+    state: directory
+    mode: '0755'
+  become: true
+
+- name: Download JetBrainsMono
+  when: not (jbm.stat.isdir is defined and jbm.stat.isdir)
+  ansible.builtin.unarchive:
+    src: https://github.com/ryanoasis/nerd-fonts/releases/download/v3.1.1/JetBrainsMono.zip
+    dest: /usr/share/fonts/JetBrainsMono
+    remote_src: yes
+  become: true
+
+# Inter
+- name: Check Inter hasn't been installed
+  ansible.builtin.stat:
+    path: /usr/share/fonts/Inter
+  register: int
+
+- name: Create Inter Directory
+  when: not (int.stat.isdir is defined and int.stat.isdir)
+  ansible.builtin.file:
+    path: "/usr/share/fonts/Inter"
+    state: directory
+    mode: '0755'
+  become: true
+
+- name: Download Inter
+  when: not (int.stat.isdir is defined and int.stat.isdir)
+  ansible.builtin.unarchive:
+    src: https://github.com/rsms/inter/releases/download/v4.1/Inter-4.1.zip
+    dest: /usr/share/fonts/Inter
+    remote_src: yes
+  become: true
+
+
