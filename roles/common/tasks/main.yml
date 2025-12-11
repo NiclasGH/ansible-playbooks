@@ -6,8 +6,6 @@
 - name: Import git configs
   ansible.builtin.include_tasks: git.yml
 
-
-# - essentials
 # - nvim
 # - ssh key
 # - linux setup repo

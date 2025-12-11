@@ -65,3 +65,14 @@
       source ~/.bash_aliases
       source ~/.bash_functions
       export PATH=$PATH:$HOME/.local/bin
+
+# Essentials
+- name: Install essentials
+  ansible.builtin.package:
+    name:
+      - "@development-tools"
+      - git
+      - unzip
+      - dnf-plugins-core
+    state: latest
+  become: true
