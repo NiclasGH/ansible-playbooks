@@ -1,0 +1,86 @@
+- name: My first play
+  hosts: testvm
+  user: niclas-vm
+  vars:
+    user: niclas-vm
+  tasks:
+    - name: Ping my hosts
+      ansible.builtin.ping:
+
+    - name: Install zsh and fzf
+      ansible.builtin.package:
+        name: 
+          - zsh
+          - fzf
+        state: latest
+      become: true
+
+    - name: Set user shell to zsh
+      ansible.builtin.user:
+        name: "{{ user }}"
+        shell: /usr/bin/zsh
+      become: true
+
+    - name: Download ohmyzsh
+      ansible.builtin.get_url:
+        url: https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh
+        dest: "/home/{{ user }}/install.sh"
+        mode: '0755'
+
+    - name: Install ohmyzsh
+      ansible.builtin.shell:
+        cmd: "/home/{{ user }}/install.sh --unattended"
+      ignore_errors: true # failure here will mean it has already been run. Can be uninstalled, when I find a way to have a declarative installation
+
+
+    - name: Create JetBrainsMono Directory
+      ansible.builtin.file:
+        path: "/usr/share/fonts/JetBrainsMono"
+        state: directory
+        mode: '0755'
+      become: true
+
+    - name: Download JetBrainsMono
+      ansible.builtin.unarchive:
+        src: https://github.com/ryanoasis/nerd-fonts/releases/download/v3.1.1/JetBrainsMono.zip
+        dest: /usr/share/fonts/JetBrainsMono
+        remote_src: yes
+      become: true
+
+    - name: Create Inter Directory
+      ansible.builtin.file:
+        path: "/usr/share/fonts/Inter"
+        state: directory
+        mode: '0755'
+      become: true
+
+    - name: Download Inter
+      ansible.builtin.unarchive:
+        src: https://github.com/rsms/inter/releases/download/v4.1/Inter-4.1.zip
+        dest: /usr/share/fonts/Inter
+        remote_src: yes
+      become: true
+
+    - name: Install zsh syntax hightlighting
+      ansible.builtin.git:
+        dest: /home/{{ user }}/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting
+        repo: 'https://github.com/zsh-users/zsh-syntax-highlighting.git'
+
+    - name: Configure zsh plugins
+      ansible.builtin.lineinfile:
+        path: /home/{{ user }}/.zshrc
+        regexp: '^plugins=\(git\)'
+        line: plugins=(git colorize zsh-autosuggestions zsh-syntax-highlighting)
+
+    - name: Default zsh settings
+      ansible.builtin.blockinfile:
+        path: /home/{{ user }}/.zshrc
+        append_newline: true
+        prepend_newline: true
+        block: |
+          source <(fzf --zsh)
+          source ~/.bash_device
+          source ~/.bash_aliases
+          source ~/.bash_functions
+          export PATH=$PATH:$HOME/.cargo/bin
+          export PATH=$PATH:$HOME/.local/bin
