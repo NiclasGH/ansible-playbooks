@@ -4,6 +4,7 @@
     - role: common
     - role: fonts
     - role: desktop
+    - role: coding-tools
   user: niclas-vm
   vars:
     user: niclas-vm

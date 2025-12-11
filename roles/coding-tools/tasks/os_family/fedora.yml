@@ -1,0 +1,100 @@
+---
+# Docker
+- name: Install dnf-plugins.core
+  ansible.builtin.package:
+    name: dnf-plugins-core
+    state: present
+  become: true
+
+- name: Install docker repository
+  ansible.builtin.shell:
+    cmd: "dnf-3 config-manager --add-repo https://download.docker.com/linux/fedora/docker-ce.repo"
+  become: true
+
+- name: Install docker
+  ansible.builtin.package:
+    name: 
+      - docker-ce
+      - docker-ce-cli
+      - containerd.io
+      - docker-buildx-plugin
+      - docker-compose-plugin
+    state: latest
+  become: true
+
+- name: Add docker to autostart
+  ansible.builtin.systemd_service:
+    enabled: true
+    name: "docker"
+  become: true
+
+- name: Allow user to run docker commands
+  ansible.builtin.user:
+    name: "{{ user }}"
+    append: true
+    groups: 
+      - docker
+  become: true
+
+    # Java
+- name: Install Java 25 and 21
+  ansible.builtin.package:
+    name: 
+      - java-21-openjdk.x86_64
+      - java-25-openjdk.x86_64
+    state: latest
+  become: true
+
+# Kubectl
+- name: Install Helm and K9s
+  ansible.builtin.package:
+    name: 
+      - helm
+      - k9s
+    state: latest
+  become: true
+
+- name: Check if K8s is already installed
+  stat:
+    path: "/usr/local/bin/kubectl"
+  register: kube
+
+- name: Get latest stable kubectl version
+  when: not (kube.stat.exists is defined and kube.stat.exists)
+  ansible.builtin.uri:
+    url: https://dl.k8s.io/release/stable.txt
+    return_content: true
+  register: kubectl_version_response
+
+- name: Set kubectl version fact
+  when: not (kube.stat.exists is defined and kube.stat.exists)
+  ansible.builtin.set_fact:
+    kubectl_version: "{{ kubectl_version_response.content | trim }}"
+
+- name: Download kubectl binary
+  retries: 3
+  delay: 5
+  register: result
+  until: result is not failed
+  when: not (kube.stat.exists is defined and kube.stat.exists)
+  ansible.builtin.get_url:
+    url: "https://dl.k8s.io/release/{{ kubectl_version }}/bin/linux/amd64/kubectl"
+    dest: /tmp/kubectl
+    mode: '0755'
+
+- name: Install kubectl to /usr/local/bin
+  when: not (kube.stat.exists is defined and kube.stat.exists)
+  ansible.builtin.copy:
+    src: /tmp/kubectl
+    dest: /usr/local/bin/kubectl
+    owner: root
+    group: root
+    mode: '0755'
+    remote_src: true
+  become: true
+
+- name: Clean up downloaded kubectl binary
+  when: not (kube.stat.exists is defined and kube.stat.exists)
+  ansible.builtin.file:
+    path: /tmp/kubectl
+    state: absent

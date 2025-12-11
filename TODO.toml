@@ -1,0 +1,29 @@
+[required]
+[[common]]
+- essentials
+- nvim
+- ssh key
+- linux setup repo
+- shell-configuration
+
+[[coding-programs]]
+- jetbrains toolbox
+- vscode
+
+[[gaming]]
+- steam
+- protontricks
+- mangohud
+- gamemode
+- proton-qt
+
+[[general-programs]]
+- brave
+- spotify
+- obsidian
+- vencord
+- 1password
+
+[optional]
+- gnome extensions
+- create generic role for script installs

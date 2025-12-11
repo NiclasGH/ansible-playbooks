@@ -14,6 +14,10 @@
   become: true
 
 - name: Download JetBrainsMono
+  retries: 3
+  delay: 5
+  register: result
+  until: result is not failed
   when: not (jbm.stat.isdir is defined and jbm.stat.isdir)
   ansible.builtin.unarchive:
     src: https://github.com/ryanoasis/nerd-fonts/releases/download/v3.1.1/JetBrainsMono.zip
@@ -36,6 +40,10 @@
   become: true
 
 - name: Download Inter
+  retries: 3
+  delay: 5
+  register: result
+  until: result is not failed
   when: not (int.stat.isdir is defined and int.stat.isdir)
   ansible.builtin.unarchive:
     src: https://github.com/rsms/inter/releases/download/v4.1/Inter-4.1.zip

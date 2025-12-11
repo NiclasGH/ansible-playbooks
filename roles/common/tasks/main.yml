@@ -1,5 +1,14 @@
 ---
-- ansible.builtin.include_tasks: os_family/fedora.yml
+- name: Import fedora specific commons
+  ansible.builtin.include_tasks: os_family/fedora.yml
   when: ansible_facts['os_family']|lower == 'redhat'
 
-- ansible.builtin.include_tasks: git.yml
+- name: Import git configs
+  ansible.builtin.include_tasks: git.yml
+
+
+# - essentials
+# - nvim
+# - ssh key
+# - linux setup repo
+# - shell-configuration
