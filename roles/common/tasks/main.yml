@@ -1,4 +1,11 @@
 ---
+# Generate ssh key
+- name: Regenerate SSH keypair
+  community.crypto.openssh_keypair:
+    path: /home/{{ user }}/.ssh/id_ed25519
+    type: ed25519
+    private_key_format: ssh
+
 - name: Import fedora specific commons
   ansible.builtin.include_tasks: os_family/fedora.yml
   when: ansible_facts['os_family']|lower == 'redhat'
@@ -6,7 +13,25 @@
 - name: Import git configs
   ansible.builtin.include_tasks: git.yml
 
-# - nvim
-# - ssh key
-# - linux setup repo
-# - shell-configuration
+  # Linux Setup
+- name: Pull linux setup
+  ansible.builtin.git:
+    dest: /home/{{ user }}/linux-setup/
+    repo: 'git@github.com:NiclasGH/linux-setup.git'
+
+  # Shell configuration
+- name: Check shell configuration hasn't been initialized
+  ansible.builtin.stat:
+    path: /home/{{ user }}/shell-configuration
+  register: sc
+
+- name: Pull shell configuration
+  ansible.builtin.git:
+    dest: /home/{{ user }}/shell-configuration/
+    repo: 'git@github.com:NiclasGH/shell-configuration.git'
+
+- name: Initialize shell configuration
+  when: not (sc.stat.isdir is defined and sc.stat.isdir)
+  ansible.builtin.script:
+    cmd: "init-shell.sh"
+

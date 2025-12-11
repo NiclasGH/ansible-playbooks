@@ -71,8 +71,28 @@
   ansible.builtin.package:
     name:
       - "@development-tools"
+      - gcc
       - git
       - unzip
       - dnf-plugins-core
     state: latest
   become: true
+
+# Nvim
+- name: Install nvim
+  ansible.builtin.package:
+    name:
+      - gcc
+      - ripgrep
+      - python3-virtualenv
+      - xclip
+      - neovim
+      - tree-sitter-cli
+    state: latest
+  become: true
+
+- name: Install nvim settings
+  ansible.builtin.git:
+    dest: /home/{{ user }}/.config/nvim
+    repo: 'git@github.com:NiclasGH/nvim-configurations.git'
+

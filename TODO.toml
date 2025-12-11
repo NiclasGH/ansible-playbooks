@@ -1,11 +1,4 @@
 [required]
-[[common]]
-- essentials
-- nvim
-- ssh key
-- linux setup repo
-- shell-configuration
-
 [[coding-programs]]
 - jetbrains toolbox
 - vscode
