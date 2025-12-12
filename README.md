@@ -7,6 +7,8 @@ desktop.yaml # Desktop Playbook
 server.yaml # Server Playbook
 ```
 
+Unfortunately, the playbooks only support x86 so far
+
 # Roles
 **Legend:**
 - ✓ = Supported
@@ -16,7 +18,7 @@ server.yaml # Server Playbook
 ### Supports
 | Arch | Debian | Fedora | Notes |
 |------|--------|--------|-------|
-| - | - | ✓ | |
+| - | ✓ | ✓ | |
 
 ### Contains
 * essentials
@@ -39,7 +41,7 @@ server.yaml # Server Playbook
 ### Supports
 | Arch | Debian | Fedora | Notes |
 |------|--------|--------|-------|
-| - | - | ✓ | |
+| - | ✓ | ✓ | |
 
 ### Contains
 * Docker

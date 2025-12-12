@@ -1,0 +1,102 @@
+---
+# Essentials
+- name: Install essentials / Warning - This can take a while
+  ansible.builtin.package:
+    name:
+      - build-essential
+      - git
+      - unzip
+      - snapd
+    state: present
+  become: true
+
+# ZSH
+- name: Install zsh and fzf
+  ansible.builtin.package:
+    name: 
+      - zsh
+      - fzf
+    state: present
+  become: true
+
+- name: Set user shell to zsh
+  ansible.builtin.user:
+    name: "{{ user }}"
+    shell: /usr/bin/zsh
+  become: true
+
+- name: Check oh-my-zsh hasn't been installed
+  ansible.builtin.stat:
+    path: /home/{{ user }}/.oh-my-zsh
+  register: omz
+
+- name: Download ohmyzsh
+  retries: 3
+  delay: 5
+  when: not (omz.stat.isdir is defined and omz.stat.isdir)
+  ansible.builtin.get_url:
+    url: https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh
+    dest: "/tmp/zsh.sh"
+    mode: '0755'
+
+- name: Install ohmyzsh
+  when: not (omz.stat.isdir is defined and omz.stat.isdir)
+  ansible.builtin.shell:
+    cmd: "/tmp/zsh.sh --unattended"
+
+- name: Remove installation script
+  ansible.builtin.file:
+    state: absent
+    path: /tmp/zsh.sh
+
+- name: Install zsh syntax hightlighting
+  ansible.builtin.git:
+    dest: /home/{{ user }}/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting
+    repo: 'https://github.com/zsh-users/zsh-syntax-highlighting.git'
+
+- name: Install zsh auto suggestions
+  ansible.builtin.git:
+    dest: /home/{{ user }}/.oh-my-zsh/custom/plugins/zsh-autosuggestions
+    repo: 'https://github.com/zsh-users/zsh-autosuggestions.git'
+
+- name: Configure zsh plugins
+  ansible.builtin.lineinfile:
+    path: /home/{{ user }}/.zshrc
+    regexp: '^plugins=\(git\)'
+    line: plugins=(git colorize zsh-autosuggestions zsh-syntax-highlighting)
+
+- name: Default zsh settings
+  ansible.builtin.blockinfile:
+    path: /home/{{ user }}/.zshrc
+    append_newline: true
+    prepend_newline: true
+    block: |
+      source <(fzf --zsh)
+      source ~/.bash_device
+      source ~/.bash_aliases
+      source ~/.bash_functions
+      export PATH=$PATH:$HOME/.local/bin
+
+# Nvim
+- name: Install nvim dependencies
+  ansible.builtin.package:
+    name:
+      - gcc
+      - ripgrep
+      - unzip
+      - python3-venv
+      - xclip
+    state: present
+  become: true
+
+- name: Install nvim
+  community.general.snap:
+    name:
+      - nvim
+
+- name: Install nvim settings
+  ansible.builtin.git:
+    dest: /home/{{ user }}/.config/nvim
+    repo: 'https://github.com/NiclasGH/nvim-conf.git'
+
+
