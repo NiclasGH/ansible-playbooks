@@ -7,71 +7,91 @@ desktop.yaml # Desktop Playbook
 server.yaml # Server Playbook
 ```
 
-# Supported Role, package matrix
-## Common
-
-| Package | Arch | Debian | Fedora | Notes |
-|---------|------|--------|--------|-------|
-| essentials | - | - | ✓ | |
-| nvim | - | - | ✓ | |
-| ssh key | ✓ | ✓ | ✓ | |
-| shell-configuration | ✓ | ✓ | ✓ | |
-| git-config | ✓ | ✓ | ✓ | |
-| zsh | - | - | ✓ | |
-
-## Fonts
-
-| Package | Arch | Debian | Fedora | Notes |
-|---------|------|--------|--------|-------|
-| JetBrainsMono | ✓ | ✓ | ✓ | |
-| Inter | ✓ | ✓ | ✓ | |
-
-## Coding Tools
-
-| Package | Arch | Debian | Fedora | Notes |
-|---------|------|--------|--------|-------|
-| docker | - | - | ✓ | |
-| java | - | - | ✓ | |
-| rust | - | - | ✓ | |
-| node | - | - | ✓ | |
-| dive | - | - | ✓ | Docker image explorer |
-| kube | - | - | ✓ | |
-
-## Coding Programs 
-
-| Package | Arch | Debian | Fedora | Notes |
-|---------|------|--------|--------|-------|
-| Toolbox | - | - | ✓ | |
-| VSCode | - | - | ✓ | |
-
-## Gaming 
-
-| Package | Arch | Debian | Fedora | Notes |
-|---------|------|--------|--------|-------|
-| steam | - | - | ✓ | |
-| protontricks | - | - | ✓ | |
-| mangohud | - | - | ✓ | Performance overlay |
-| gamemode | - | - | ✓ | Performance optimization |
-| proton-qt | - | - | ✓ | Proton version manager |
-
-## General Programs 
-
-| Package | Arch | Debian | Fedora | Notes |
-|---------|------|--------|--------|-------|
-| brave | - | - | ✓ | |
-| spotify | - | - | ✓ | |
-| obsidian | - | - | ✓ | |
-| vencord | - | - | ✓ | |
-| 1password | - | - | ✓ | |
-
-## Desktop
-
-| Package | Arch | Debian | Fedora | Notes |
-|---------|------|--------|--------|-------|
-| gnome | ✓ | ✓ | ✓ | |
-| gnome-tweaks | - | - | ✓ | |
-
----
+# Roles
 **Legend:**
 - ✓ = Supported
 - - = Not yet supported
+
+## Common
+### Supports
+| Arch | Debian | Fedora | Notes |
+|------|--------|--------|-------|
+| - | - | ✓ | |
+
+### Contains
+* essentials
+* nvim
+* ssh key
+* init script
+* zsh
+
+## Fonts
+### Supports
+| Arch | Debian | Fedora | Notes |
+|------|--------|--------|-------|
+| ✓ | ✓ | ✓ | |
+
+### Contains
+* JetBrainsMono
+* Inter
+
+## Coding Tools
+### Supports
+| Arch | Debian | Fedora | Notes |
+|------|--------|--------|-------|
+| - | - | ✓ | |
+
+### Contains
+* Docker
+* Java21 + Java25
+* Rust
+* Node
+* Dive (Docker Image Explorer)
+* Helm + Kubectl
+
+## Coding Programs
+### Supports
+| Arch | Debian | Fedora | Notes |
+|------|--------|--------|-------|
+| - | - | ✓ | |
+
+### Contains
+* JetBrains Toolbox
+* VSCodium
+
+## Gaming
+### Supports
+| Arch | Debian | Fedora | Notes |
+|------|--------|--------|-------|
+| - | - | ✓ | |
+
+### Contains
+* Steam
+* Protontricks
+* mangohud
+* gamemode
+* proton-qt
+
+## Gaming
+### Supports
+| Arch | Debian | Fedora | Notes |
+|------|--------|--------|-------|
+| - | - | ✓ | |
+
+### Contains
+* Brave
+* Spotify
+* Obsidian
+* Vencord
+* 1Password
+
+## Gaming
+### Supports
+| Arch | Debian | Fedora | Notes |
+|------|--------|--------|-------|
+| - | - | ✓ | |
+
+### Contains
+* Gnome (Fedora only)
+** Gnome-Tweaks
+
