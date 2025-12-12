@@ -1,4 +1,9 @@
 ---
+- name: Failing for unsupported OS
+  ansible.builtin.fail:
+    msg: The system uses an unsupported OS
+  when: ansible_facts['os_family']|lower != 'redhat'
+
 - name: Import gnome settings
   ansible.builtin.include_tasks: gnome.yml
   when: desktop|lower == 'gnome'

@@ -1,6 +1,9 @@
 ---
+- name: Failing for unsupported OS
+  ansible.builtin.fail:
+    msg: The system uses an unsupported OS
+  when: ansible_facts['os_family']|lower != 'redhat'
+
 - name: Import fedora specific coding programs
   ansible.builtin.include_tasks: os_family/fedora.yml
   when: ansible_facts['os_family']|lower == 'redhat'
-# - jetbrains toolbox
-# - vscode
