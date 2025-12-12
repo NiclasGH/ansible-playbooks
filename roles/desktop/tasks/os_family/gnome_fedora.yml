@@ -1,6 +1,6 @@
 - name: Install Gnome Tweaks
   ansible.builtin.package:
     name: gnome-tweaks 
-    state: latest
+    state: present
   become: true
 

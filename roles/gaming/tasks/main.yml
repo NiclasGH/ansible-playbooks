@@ -1,9 +1,21 @@
 ---
+- name: Add the flathub flatpak repository remote
+  community.general.flatpak_remote:
+    name: flathub
+    state: present
+    flatpakrepo_url: https://dl.flathub.org/repo/flathub.flatpakrepo
+    method: user
+
+- name: Install Steam and Protontools
+  community.general.flatpak:
+    name:
+      - com.valvesoftware.Steam
+      - net.davidotek.pupgui2 # proton-qt
+      - com.github.Matoking.protontricks
+    state: present
+    method: user
+
 - name: Import fedora specific gaming
   ansible.builtin.include_tasks: os_family/fedora.yml
   when: ansible_facts['os_family']|lower == 'redhat'
-# - steam
-# - protontricks
-# - mangohud
-# - gamemode
-# - proton-qt
+

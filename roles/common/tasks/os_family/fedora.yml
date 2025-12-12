@@ -1,15 +1,15 @@
 ---
 # Essentials
-# - name: Install essentials
-#   ansible.builtin.package:
-#     name:
-#       - "@development-tools"
-#       - gcc
-#       - git
-#       - unzip
-#       - dnf-plugins-core
-#     state: present
-#   become: true
+- name: Install essentials / Warning - This can take a while
+  ansible.builtin.package:
+    name:
+      - "@development-tools"
+      - gcc
+      - git
+      - unzip
+      - dnf-plugins-core
+    state: present
+  become: true
 
 # ZSH
 - name: Install zsh and fzf
@@ -17,7 +17,7 @@
     name: 
       - zsh
       - fzf
-    state: latest
+    state: present
   become: true
 
 - name: Set user shell to zsh
@@ -88,7 +88,7 @@
       - xclip
       - neovim
       - tree-sitter-cli
-    state: latest
+    state: present
   become: true
 
 - name: Install nvim settings

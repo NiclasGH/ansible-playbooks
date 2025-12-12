@@ -1,6 +1,32 @@
 ---
-# - brave
-# - spotify
-# - obsidian
-# - vencord
-# - 1password
+- name: Import fedora specific general-programs
+  ansible.builtin.include_tasks: os_family/fedora.yml
+  when: ansible_facts['os_family']|lower == 'redhat'
+
+- name: Add the flathub flatpak repository remote
+  community.general.flatpak_remote:
+    name: flathub
+    state: present
+    flatpakrepo_url: https://dl.flathub.org/repo/flathub.flatpakrepo
+    method: user
+
+- name: Install Spotify
+  community.general.flatpak:
+    name: 
+     - com.spotify.Client
+    state: present
+    method: user
+
+- name: Install Obsidian
+  community.general.flatpak:
+    name: 
+     - md.obsidian.Obsidian
+    state: present
+    method: user
+
+- name: Install Discord/Vesktop
+  community.general.flatpak:
+    name: 
+     - dev.vencord.Vesktop
+    state: present
+    method: user

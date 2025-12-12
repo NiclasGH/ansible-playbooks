@@ -13,12 +13,6 @@
     type: ed25519
 
 - name: Check if shell is initialized
-  ansible.builtin.copy:
-    src: init-shell.sh
-    dest: /home/{{ user }}/init-shell.sh
-    mode: "755"
-
-- name: Check if shell is initialized
   ansible.builtin.stat:
     path: /home/{{ user }}/shell-configuration
   register: sc

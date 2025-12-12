@@ -57,7 +57,7 @@
   until: result is not failed
   when: not (nvm.stat.isdir is defined and nvm.stat.isdir)
   ansible.builtin.get_url:
-    url: https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.3/install.sh
+    url: https://raw.githubusercontent.com/nvm-sh/nvm/v{{ nvm_version }}/install.sh
     dest: "/tmp/nvm.sh"
     mode: '0755'
 
@@ -111,6 +111,6 @@
     block: |
       export PATH=$PATH:$HOME/.cargo/bin
 
-- name: Install cargo-watch
-  community.general.cargo:
-    name: cargo-watch
+# - name: Install cargo-watch
+#   community.general.cargo:
+#     name: cargo-watch

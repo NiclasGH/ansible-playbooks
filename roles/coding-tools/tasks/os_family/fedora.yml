@@ -19,7 +19,7 @@
       - containerd.io
       - docker-buildx-plugin
       - docker-compose-plugin
-    state: latest
+    state: present
   become: true
 
 - name: Add docker to autostart
@@ -42,7 +42,7 @@
     name: 
       - java-21-openjdk.x86_64
       - java-25-openjdk.x86_64
-    state: latest
+    state: present
   become: true
 
 # Kubectl
@@ -51,7 +51,7 @@
     name: 
       - helm
       - k9s
-    state: latest
+    state: present
   become: true
 
 - name: Check if K8s is already installed

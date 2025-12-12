@@ -14,9 +14,10 @@ fi
 if [ ! -f $HOME/.ssh/id_ed25519.pub ]; then
     echo "No ssh key found: Generating ssh key..."
     ssh-keygen -t ed25519
+    echo
 fi
 
-echo ; echo "Add the following key to: https://github.com/settings/keys to be able to continue"
+echo "Add the following key to: https://github.com/settings/keys to be able to continue"
 cat ~/.ssh/id_ed25519.pub
 
 read -p "Press any key after adding the ssh key on github to continue"

@@ -2,47 +2,16 @@
   hosts: testvm
   roles:
     - role: common
-    # - role: fonts
-    # - role: desktop
-    # - role: coding-tools
+    - role: fonts
+    - role: desktop
+    - role: coding-tools
+    - role: general-programs
     - role: coding-programs
-    # - role: gaming
+    - role: gaming
   user: niclas-vm
   vars:
     user: niclas-vm
     desktop: gnome
     toolbox_version: "3.1.2.64642"
+    nvm_version: "0.40.3"
   tasks:
-    - name: Import 1password key
-      ansible.builtin.rpm_key:
-        state: present
-        key: https://downloads.1password.com/linux/keys/1password.asc
-      become: true
-
-    - name: Create file with 0644 if not exists
-      ansible.builtin.file:
-        path: /etc/yum.repos.d/1password.repo
-        state: touch
-        mode: '0644'
-      become: true
-
-    - name: 1Password Yum Configuration
-      ansible.builtin.blockinfile:
-        path: /etc/yum.repos.d/1password.repo
-        append_newline: true
-        prepend_newline: true
-        block: |
-          [1password]
-          name=1Password Stable Channel
-          baseurl=https://downloads.1password.com/linux/rpm/stable/\$basearch
-          enabled=1
-          gpgcheck=1
-          repo_gpgcheck=1
-          gpgkey="https://downloads.1password.com/linux/keys/1password.asc"
-      become: true
-
-    - name: Install 1password
-      ansible.builtin.package:
-        name: 1password
-        state: present
-      become: true

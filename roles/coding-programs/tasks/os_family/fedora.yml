@@ -50,7 +50,7 @@
     key: https://gitlab.com/paulcarroty/vscodium-deb-rpm-repo/-/raw/master/pub.gpg
   become: true
 
-- name: Create file with 0644 if not exists
+- name: Create VSCodium Repo file if not exists
   ansible.builtin.file:
     path: /etc/yum.repos.d/vscodium.repo
     state: touch
