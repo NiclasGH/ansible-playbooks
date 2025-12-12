@@ -2,9 +2,9 @@
   hosts: testvm
   roles:
     - role: common
-    - role: fonts
-    - role: desktop
-    - role: coding-tools
+    # - role: fonts
+    # - role: desktop
+    # - role: coding-tools
   user: niclas-vm
   vars:
     user: niclas-vm
@@ -41,5 +41,5 @@
     - name: Install 1password
       ansible.builtin.package:
         name: 1password
-        state: latest
+        state: present
       become: true

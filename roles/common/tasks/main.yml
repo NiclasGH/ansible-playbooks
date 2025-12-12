@@ -1,11 +1,4 @@
 ---
-# Generate ssh key
-- name: Regenerate SSH keypair
-  community.crypto.openssh_keypair:
-    path: /home/{{ user }}/.ssh/id_ed25519
-    type: ed25519
-    private_key_format: ssh
-
 - name: Import fedora specific commons
   ansible.builtin.include_tasks: os_family/fedora.yml
   when: ansible_facts['os_family']|lower == 'redhat'
@@ -13,25 +6,26 @@
 - name: Import git configs
   ansible.builtin.include_tasks: git.yml
 
-  # Linux Setup
-- name: Pull linux setup
-  ansible.builtin.git:
-    dest: /home/{{ user }}/linux-setup/
-    repo: 'git@github.com:NiclasGH/linux-setup.git'
+# Generate ssh key
+- name: Generate SSH keypair
+  community.crypto.openssh_keypair:
+    path: /home/{{ user }}/.ssh/id_ed25519
+    type: ed25519
 
-  # Shell configuration
-- name: Check shell configuration hasn't been initialized
+- name: Check if shell is initialized
+  ansible.builtin.copy:
+    src: init-shell.sh
+    dest: /home/{{ user }}/init-shell.sh
+    mode: "755"
+
+- name: Check if shell is initialized
   ansible.builtin.stat:
     path: /home/{{ user }}/shell-configuration
   register: sc
 
-- name: Pull shell configuration
-  ansible.builtin.git:
-    dest: /home/{{ user }}/shell-configuration/
-    repo: 'git@github.com:NiclasGH/shell-configuration.git'
-
-- name: Initialize shell configuration
+- name: Create init script
   when: not (sc.stat.isdir is defined and sc.stat.isdir)
-  ansible.builtin.script:
-    cmd: "init-shell.sh"
-
+  ansible.builtin.copy:
+    src: init-shell.sh
+    dest: /home/{{ user }}/init-shell.sh
+    mode: "755"

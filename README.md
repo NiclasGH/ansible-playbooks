@@ -12,11 +12,10 @@ server.yaml # Server Playbook
 
 | Package | Arch | Debian | Fedora | Notes |
 |---------|------|--------|--------|-------|
-| essentials | - | - | - | |
-| nvim | - | - | - | |
-| ssh key | - | - | - | |
-| linux setup repo | - | - | - | |
-| shell-configuration | - | - | - | |
+| essentials | - | - | ✓ | |
+| nvim | - | - | ✓ | |
+| ssh key | ✓ | ✓ | ✓ | |
+| shell-configuration | ✓ | ✓ | ✓ | |
 | git-config | ✓ | ✓ | ✓ | |
 | zsh | - | - | ✓ | |
 

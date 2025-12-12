@@ -1,9 +1,30 @@
-cp $HOME/shell-configuration/configuration/.bash_aliases $HOME/.bash_aliases
-cp $HOME/shell-configuration/configuration/.bash_device $HOME/.bash_device
-cp $HOME/shell-configuration/configuration/.bash_functions $HOME/.bash_functions
-cat <<EOF > $HOME/.zshrc
-source ~/.bash_device
-source ~/.bash_functions
-source ~/.bash_aliases
-EOF
+#!/usr/bin/env bash
 
+if [ "$USER" = "root" ] ; then
+	echo "Don't run this script as root"
+	exit 1
+fi
+
+if ! command -v git 2>&1 >/dev/null
+then
+    	echo "Git is not installed"
+    	exit 1
+fi
+
+if [ ! -f $HOME/.ssh/id_ed25519.pub ]; then
+    echo "No ssh key found: Generating ssh key..."
+    ssh-keygen -t ed25519
+fi
+
+echo ; echo "Add the following key to: https://github.com/settings/keys to be able to continue"
+cat ~/.ssh/id_ed25519.pub
+
+read -p "Press any key after adding the ssh key on github to continue"
+git clone git@github.com:NiclasGH/linux-setup.git ~/linux-setup
+
+# Initalize aliases
+git clone git@github.com:NiclasGH/shell-configuration.git ~/shell-configuration
+(cd ~/shell-configuration; ./init)
+echo "Aliases successfully configured"
+
+echo ; echo "Initialization successful!"

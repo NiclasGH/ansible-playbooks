@@ -1,4 +1,16 @@
 ---
+# Essentials
+# - name: Install essentials
+#   ansible.builtin.package:
+#     name:
+#       - "@development-tools"
+#       - gcc
+#       - git
+#       - unzip
+#       - dnf-plugins-core
+#     state: present
+#   become: true
+
 # ZSH
 - name: Install zsh and fzf
   ansible.builtin.package:
@@ -66,18 +78,6 @@
       source ~/.bash_functions
       export PATH=$PATH:$HOME/.local/bin
 
-# Essentials
-- name: Install essentials
-  ansible.builtin.package:
-    name:
-      - "@development-tools"
-      - gcc
-      - git
-      - unzip
-      - dnf-plugins-core
-    state: latest
-  become: true
-
 # Nvim
 - name: Install nvim
   ansible.builtin.package:
@@ -94,5 +94,5 @@
 - name: Install nvim settings
   ansible.builtin.git:
     dest: /home/{{ user }}/.config/nvim
-    repo: 'git@github.com:NiclasGH/nvim-configurations.git'
+    repo: 'https://github.com/NiclasGH/nvim-conf.git'
 
