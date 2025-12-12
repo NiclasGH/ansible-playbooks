@@ -1,5 +1,5 @@
-- name: Setup Desktop Environment
-  hosts: desktop
+- name: Testing roles and tasks
+  hosts: testvm
   roles:
     - role: common
     - role: fonts
@@ -8,9 +8,9 @@
     - role: general-programs
     - role: coding-programs
     - role: gaming
-  user: niclas
+  user: niclas-vm
   vars:
-    user: niclas
+    user: niclas-vm
     desktop: gnome
     toolbox_version: "3.1.2.64642"
     nvm_version: "0.40.3"

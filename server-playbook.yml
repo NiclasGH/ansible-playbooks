@@ -1,0 +1,11 @@
+- name: Setup Server Environment
+  hosts: server
+  roles:
+    - role: common
+    - role: fonts
+    - role: coding-tools
+  user: tiramisu
+  vars:
+    user: tiramisu
+    nvm_version: "0.40.3"
+  tasks:
