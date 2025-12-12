@@ -1,0 +1,80 @@
+---
+# Toolbox
+- name: Check if JetBrains Toolbox is already installed
+  ansible.builtin.stat:
+    path: "/home/{{ user }}/.local/share/JetBrains/Toolbox"
+  register: toolbox
+
+- name: Create JetBrains Toolbox temporary directory
+  when: not (toolbox.stat.isdir is defined and toolbox.stat.isdir)
+  ansible.builtin.file:
+    path: /tmp/jetbrains-toolbox-install
+    state: directory
+    mode: '0755'
+
+- name: Download and extract JetBrains Toolbox
+  when: not (toolbox.stat.isdir is defined and toolbox.stat.isdir)
+  retries: 3
+  delay: 5
+  register: download_result
+  until: download_result is not failed
+  ansible.builtin.unarchive:
+    src: https://download.jetbrains.com/toolbox/jetbrains-toolbox-{{ toolbox_version }}.tar.gz
+    dest: /tmp/jetbrains-toolbox-install
+    remote_src: true
+
+- name: Find extracted directory
+  when: not (toolbox.stat.isdir is defined and toolbox.stat.isdir)
+  ansible.builtin.find:
+    paths: /tmp/jetbrains-toolbox-install
+    patterns: "*jetbrains*"
+    file_type: directory
+  register: toolbox_dir
+
+- name: Launch JetBrains Toolbox
+  when: 
+    - not (toolbox.stat.isdir is defined and toolbox.stat.isdir)
+    - toolbox_dir.files | length > 0
+  ansible.builtin.command:
+    cmd: "{{ toolbox_dir.files[0].path }}/bin/jetbrains-toolbox"
+
+- name: Clean up temporary JetBrains Toolbox directory
+  ansible.builtin.file:
+    path: /tmp/jetbrains-toolbox-install
+    state: absent
+
+# VSCodium
+- name: Import VSCodium key
+  ansible.builtin.rpm_key:
+    state: present
+    key: https://gitlab.com/paulcarroty/vscodium-deb-rpm-repo/-/raw/master/pub.gpg
+  become: true
+
+- name: Create file with 0644 if not exists
+  ansible.builtin.file:
+    path: /etc/yum.repos.d/vscodium.repo
+    state: touch
+    mode: '0644'
+  become: true
+
+- name: VSCodium Yum Configuration
+  ansible.builtin.blockinfile:
+    path: /etc/yum.repos.d/vscodium.repo
+    append_newline: true
+    prepend_newline: true
+    block: |
+      [gitlab.com_paulcarroty_vscodium_repo]
+      name=download.vscodium.com
+      baseurl=https://download.vscodium.com/rpms/
+      enabled=1
+      gpgcheck=1
+      repo_gpgcheck=1
+      gpgkey=https://gitlab.com/paulcarroty/vscodium-deb-rpm-repo/-/raw/master/pub.gpg
+      metadata_expire=1h
+  become: true
+
+- name: Install VSCodium
+  ansible.builtin.package:
+    name: codium
+    state: present
+  become: true

@@ -1,4 +1,7 @@
 ---
+- name: Import fedora specific gaming
+  ansible.builtin.include_tasks: os_family/fedora.yml
+  when: ansible_facts['os_family']|lower == 'redhat'
 # - steam
 # - protontricks
 # - mangohud

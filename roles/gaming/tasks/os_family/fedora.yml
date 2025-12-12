@@ -1,0 +1,16 @@
+---
+- name: Install Steam and Protontools
+  community.general.flatpak:
+    name:
+      - com.valvesoftware.Steam
+      - net.davidotek.pupgui2 # proton-qt
+      - com.github.Matoking.protontricks
+    state: present
+
+- name: Install gamemode and mangohud
+  ansible.builtin.package:
+    name: 
+     - gamemode
+     - mangohud
+    state: present
+  become: true
