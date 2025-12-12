@@ -3,6 +3,7 @@
   ansible.builtin.package:
     name: 
      - gamemode
+     - steam-devices
      - mangohud
     state: present
   become: true
