@@ -19,10 +19,10 @@ Unfortunately, the playbooks only support x86 so far
 3. Execute playbook
 ```bash
 # For desktops
-ansible-playbook -i inventory.ini desktop-playbook.yaml
+ansible-playbook -i inventory.ini desktop-playbook.yaml --ask-become-pass
 
 # For servers
-ansible-playbook -i inventory.ini server-playbook.yaml
+ansible-playbook -i inventory.ini server-playbook.yaml --ask-become-pass
 ```
 
 ## Roles
