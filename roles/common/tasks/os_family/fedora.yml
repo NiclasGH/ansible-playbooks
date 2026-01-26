@@ -94,5 +94,5 @@
 - name: Install nvim settings
   ansible.builtin.git:
     dest: /home/{{ user }}/.config/nvim
-    repo: 'https://github.com/NiclasGH/nvim-conf.git'
+    repo: 'git@github.com:NiclasGH/nvim-conf.git'
 
