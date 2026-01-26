@@ -78,3 +78,9 @@
     name: codium
     state: present
   become: true
+
+- name: Install Virtual Manager
+  ansible.builtin.package:
+    name: virt-manager
+    state: present
+  become: true
