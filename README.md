@@ -9,41 +9,57 @@ server.yaml # Server Playbook
 
 Unfortunately, the playbooks only support x86 so far
 
-# Roles
+## Using Ansible Playbooks
+1. Create example inventory.ini:
+```bash
+./init.sh
+```
+
+2. Add ips to inventory.ini under `[server]` or `[desktop]`.
+3. Execute playbook
+```bash
+# For desktops
+ansible-playbook -i inventory.ini desktop-playbook.yaml
+
+# For servers
+ansible-playbook -i inventory.ini server-playbook.yaml
+```
+
+## Roles
 **Legend:**
 - ✓ = Supported
 - - = Not yet supported
 
-## Common
-### Supports
+### Common
+#### Supports
 | Arch | Debian | Fedora | Notes |
 |------|--------|--------|-------|
 | - | ✓ | ✓ | |
 
-### Contains
+#### Contains
 * essentials
 * nvim
 * ssh key
 * init script
 * zsh
 
-## Fonts
-### Supports
+### Fonts
+#### Supports
 | Arch | Debian | Fedora | Notes |
 |------|--------|--------|-------|
 | ✓ | ✓ | ✓ | |
 
-### Contains
+#### Contains
 * JetBrainsMono
 * Inter
 
-## Coding Tools
-### Supports
+### Coding Tools
+#### Supports
 | Arch | Debian | Fedora | Notes |
 |------|--------|--------|-------|
 | - | ✓ | ✓ | |
 
-### Contains
+#### Contains
 * Docker
 * Java21 + Java25
 * Rust
@@ -51,49 +67,49 @@ Unfortunately, the playbooks only support x86 so far
 * Dive (Docker Image Explorer)
 * Helm + Kubectl
 
-## Coding Programs
-### Supports
+### Coding Programs
+#### Supports
 | Arch | Debian | Fedora | Notes |
 |------|--------|--------|-------|
 | - | - | ✓ | |
 
-### Contains
+#### Contains
 * JetBrains Toolbox
 * VSCodium
 
-## Gaming
-### Supports
+### Gaming
+#### Supports
 | Arch | Debian | Fedora | Notes |
 |------|--------|--------|-------|
 | - | - | ✓ | |
 
-### Contains
+#### Contains
 * Steam
 * Protontricks
 * mangohud
 * gamemode
 * proton-qt
 
-## Gaming
-### Supports
+### Gaming
+#### Supports
 | Arch | Debian | Fedora | Notes |
 |------|--------|--------|-------|
 | - | - | ✓ | |
 
-### Contains
+#### Contains
 * Brave
 * Spotify
 * Obsidian
 * Vencord
 * 1Password
 
-## Gaming
-### Supports
+### Desktop
+#### Supports
 | Arch | Debian | Fedora | Notes |
 |------|--------|--------|-------|
 | - | - | ✓ | |
 
-### Contains
+#### Contains
 * Gnome (Fedora only)
 ** Gnome-Tweaks
 

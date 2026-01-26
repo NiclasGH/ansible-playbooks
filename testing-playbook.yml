@@ -1,5 +1,5 @@
 - name: Testing roles and tasks
-  hosts: testvm
+  hosts: test
   roles:
     - role: common
     - role: fonts
