@@ -3,7 +3,7 @@ if [ -e inventory.ini ]; then
     exit 0
 fi
 
-echo <<EOF > inventory.ini
+cat <<EOF > inventory.ini
 [test]
 192.168.122.198
 
