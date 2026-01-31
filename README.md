@@ -9,6 +9,9 @@ server.yaml # Server Playbook
 
 Unfortunately, the playbooks only support x86 so far
 
+## Tips for Gnome Playbooks
+Using `dconf watch /` you can find out which keys are changed when changing GNOME settings through the UI.
+
 ## Using Ansible Playbooks
 1. Create example inventory.ini:
 ```bash

@@ -29,6 +29,66 @@
     value: "'prefer-dark'"
     state: present
 
+- name: Inactive timer 8 minutes
+  community.general.dconf:
+    key: "/org/gnome/desktop/session/idle-delay"
+    value: "uint32 480"
+    state: present
+
+- name: Deactivate suspend
+  community.general.dconf:
+    key: "/org/gnome/settings-daemon/plugins/power/sleep-inactive-ac-type"
+    value: "'nothing'"
+    state: present
+
+- name: Set MoveToWorkspaceLeft to Ctrl+Super+Left
+  community.general.dconf:
+    key: "/org/gnome/desktop/wm/keybindings/move-to-workspace-left"
+    value: "['<Control><Super>Left']"
+    state: present
+
+- name: Set MoveToWorkspaceRight to Ctrl+Super+Right
+  community.general.dconf:
+    key: "/org/gnome/desktop/wm/keybindings/move-to-workspace-right"
+    value: "['<Control><Super>Right']"
+    state: present
+
+- name: Set SwitchToWorkSpaceLeft to Super+Left
+  community.general.dconf:
+    key: "/org/gnome/desktop/wm/keybindings/switch-to-workspace-left"
+    value: "['<Super>Left']"
+    state: present
+
+- name: Set SwitchToWorkSpaceRight to Super+Right
+  community.general.dconf:
+    key: "/org/gnome/desktop/wm/keybindings/switch-to-workspace-right"
+    value: "['<Super>Right']"
+    state: present
+
+- name: Set MaximizeWindow to Control+Up
+  community.general.dconf:
+    key: "/org/gnome/desktop/wm/keybindings/maximize"
+    value: "['<Control>Up']"
+    state: present
+
+- name: Set UnmaximizeWindow to Control+Up
+  community.general.dconf:
+    key: "/org/gnome/desktop/wm/keybindings/unmaximize"
+    value: "['<Control>Down']"
+    state: present
+
+- name: Set WindowLeft to Control+Left
+  community.general.dconf:
+    key: "/org/gnome/desktop/wm/keybindings/toggle-tiled-left"
+    value: "['<Control>Left']"
+    state: present
+
+- name: Set WindowRight to Control+Right
+  community.general.dconf:
+    key: "/org/gnome/desktop/wm/keybindings/toggle-tiled-right"
+    value: "['<Control>Right']"
+    state: present
+
 - name: Install fedora specific gnome installations
   ansible.builtin.include_tasks: os_family/gnome_fedora.yml
   when: ansible_facts['os_family']|lower == 'redhat'
