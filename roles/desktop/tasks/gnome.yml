@@ -77,18 +77,6 @@
     value: "['<Control>Down']"
     state: present
 
-- name: Set WindowLeft to Control+Left
-  community.general.dconf:
-    key: "/org/gnome/desktop/wm/keybindings/toggle-tiled-left"
-    value: "['<Control>Left']"
-    state: present
-
-- name: Set WindowRight to Control+Right
-  community.general.dconf:
-    key: "/org/gnome/desktop/wm/keybindings/toggle-tiled-right"
-    value: "['<Control>Right']"
-    state: present
-
 - name: Install fedora specific gnome installations
   ansible.builtin.include_tasks: os_family/gnome_fedora.yml
   when: ansible_facts['os_family']|lower == 'redhat'
