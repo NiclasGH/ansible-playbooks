@@ -1,0 +1,54 @@
+---
+- name: Failing for unsupported OS
+  ansible.builtin.fail:
+    msg: The system uses an unsupported OS
+  when: ansible_facts['os_family']|lower != 'redhat' and ansible_facts['os_family']|lower != 'debian'
+
+- name: Import fedora specific coding tools
+  ansible.builtin.include_tasks: os_family/fedora.yml
+  when: ansible_facts['os_family']|lower == 'redhat'
+
+  # Rust
+- name: Check rust hasn't been installed
+  stat:
+    path: "/home/{{ user }}/.cargo/bin/rustc"
+  register: rust
+
+- name: Download rust
+  retries: 3
+  delay: 5
+  register: result
+  until: result is not failed
+  when: not (rust.stat.exists is defined and rust.stat.exists)
+  ansible.builtin.get_url:
+    url: https://sh.rustup.rs
+    dest: "/tmp/rust.sh"
+    mode: '0755'
+
+- name: Install rust
+  when: not (rust.stat.exists is defined and rust.stat.exists)
+  ansible.builtin.shell:
+    cmd: "/tmp/rust.sh -y"
+
+- name: Remove installation script
+  ansible.builtin.file:
+    state: absent
+    path: /tmp/rust.sh
+
+- name: Add cargo bin to PATH
+  when: not (rust.stat.exists is defined and rust.stat.exists)
+  ansible.builtin.blockinfile:
+    path: /home/{{ user }}/.zshrc
+    append_newline: true
+    prepend_newline: true
+    block: |
+      export PATH=$PATH:$HOME/.cargo/bin
+
+  # Install after rust, to be able to install treesitter-cli
+- name: Import debian specific coding tools
+  ansible.builtin.include_tasks: os_family/debian.yml
+  when: ansible_facts['os_family']|lower == 'debian'
+
+# - name: Install cargo-watch
+#   community.general.cargo:
+#     name: cargo-watch

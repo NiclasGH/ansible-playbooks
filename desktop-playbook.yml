@@ -1,13 +1,14 @@
 - name: Setup Desktop Environment
   hosts: desktop
   roles:
-    - role: common
-    - role: fonts
-    - role: desktop
-    - role: coding-tools
-    - role: general-programs
-    - role: coding-programs
-    - role: gaming
+    - role: common-base
+    - role: common-fonts
+    - role: common-coding-base
+    - role: common-coding-extra
+    - role: desktop-environment
+    - role: desktop-gaming
+    - role: desktop-programs-coding
+    - role: desktop-programs-general
   user: niclas
   vars:
     user: niclas

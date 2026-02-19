@@ -1,24 +1,5 @@
 ---
-# Docker
-- name: Install docker
-  ansible.builtin.script:
-    cmd: docker.sh
-
-- name: Add docker to autostart
-  ansible.builtin.systemd_service:
-    enabled: true
-    name: "docker"
-  become: true
-
-- name: Allow user to run docker commands
-  ansible.builtin.user:
-    name: "{{ user }}"
-    append: true
-    groups: 
-      - docker
-  become: true
-
-    # Java
+# Java
 - name: Install Java 25 and 21
   ansible.builtin.package:
     name: 
