@@ -29,18 +29,12 @@ ansible-playbook -i inventory.ini server-playbook.yaml --ask-become-pass
 ```
 
 ## Roles
-**Legend:**
-- ✓ = Supported
-- - = Not yet supported
+Common supports Debian and Fedora \
+Desktop supports Fedora \
+Server supports Debian
 
 ### Common
 #### Base
-##### Supports
-| Arch | Debian | Fedora | Notes |
-|------|--------|--------|-------|
-| - | ✓ | ✓ | |
-
-##### Contains
 * essentials
 * nvim
 * ssh key
@@ -48,53 +42,23 @@ ansible-playbook -i inventory.ini server-playbook.yaml --ask-become-pass
 * zsh
 
 #### Fonts
-##### Supports
-| Arch | Debian | Fedora | Notes |
-|------|--------|--------|-------|
-| ✓ | ✓ | ✓ | |
-
-##### Contains
 * JetBrainsMono
 * Inter
 
 #### Coding Base
-##### Supports
-| Arch | Debian | Fedora | Notes |
-|------|--------|--------|-------|
-| - | ✓ | ✓ | |
-
-##### Contains
 * Docker
 * Rust
 
 #### Coding Extra
-##### Supports
-| Arch | Debian | Fedora | Notes |
-|------|--------|--------|-------|
-| - | ✓ | ✓ | |
-
-##### Contains
 * Java21 + Java25
 * Node
 
 ### Desktop
 #### Programs Coding
-##### Supports
-| Arch | Debian | Fedora | Notes |
-|------|--------|--------|-------|
-| - | - | ✓ | |
-
-##### Contains
 * JetBrains Toolbox
 * VSCodium
 
 #### Gaming
-##### Supports
-| Arch | Debian | Fedora | Notes |
-|------|--------|--------|-------|
-| - | - | ✓ | |
-
-##### Contains
 * Steam
 * Protontricks
 * mangohud
@@ -102,24 +66,15 @@ ansible-playbook -i inventory.ini server-playbook.yaml --ask-become-pass
 * proton-qt
 
 #### Programs General
-##### Supports
-| Arch | Debian | Fedora | Notes |
-|------|--------|--------|-------|
-| - | - | ✓ | |
-
-##### Contains
 * Spotify
 * Obsidian
 * Vencord
 * 1Password
 
 #### Environment
-##### Supports
-| Arch | Debian | Fedora | Notes |
-|------|--------|--------|-------|
-| - | - | ✓ | |
-
-##### Contains
 * Gnome (Fedora only)
 ** Gnome-Tweaks
 
+### Server
+#### Security
+* ufw

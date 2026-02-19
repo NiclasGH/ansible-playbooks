@@ -1,0 +1,26 @@
+---
+- name: Failing for unsupported OS
+  ansible.builtin.fail:
+    msg: The system uses an unsupported OS
+  when: ansible_facts['os_family']|lower != 'debian'
+
+- name: Import debian specific coding tools
+  ansible.builtin.include_tasks: os_family/debian.yml
+  when: ansible_facts['os_family']|lower == 'debian'
+
+# Configure UFW
+- name: UFW - Allow SSH connections
+  community.general.ufw:
+    rule: allow
+    name: OpenSSH
+  become: true
+
+- name: UFW - Enable and deny by default
+  community.general.ufw:
+    state: enabled
+    default: deny
+  become: true
+
+- name: UFW - Reload firewall
+  ansible.builtin.command: ufw reload
+  become: true

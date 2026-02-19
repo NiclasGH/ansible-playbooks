@@ -1,0 +1,8 @@
+---
+# ufw
+- name: Install ufw
+  ansible.builtin.apt:
+    name: ufw
+    state: present
+    update_cache: yes
+  become: true

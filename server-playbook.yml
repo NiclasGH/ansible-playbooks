@@ -4,6 +4,7 @@
     - role: common-base
     - role: common-fonts
     - role: common-coding-base
+    - role: server-security
   user: tiramisu
   vars:
     user: tiramisu
