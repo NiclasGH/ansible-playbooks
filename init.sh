@@ -5,7 +5,7 @@ fi
 
 cat <<EOF > inventory.ini
 [test]
-192.168.122.198
+192.168.122.198 ansible_user=niclas-vm
 
 [server]
 
