@@ -2,7 +2,7 @@
 # Toolbox
 - name: Check if JetBrains Toolbox is already installed
   ansible.builtin.stat:
-    path: "/home/{{ user }}/.local/share/JetBrains/Toolbox"
+    path: "/home/{{ user }}/.jetbrains"
   register: toolbox
 
 - name: Create JetBrains Toolbox temporary directory
@@ -20,13 +20,13 @@
   until: download_result is not failed
   ansible.builtin.unarchive:
     src: https://download.jetbrains.com/toolbox/jetbrains-toolbox-{{ toolbox_version }}.tar.gz
-    dest: /tmp/jetbrains-toolbox-install
+    dest:  /home/{{ user }}/.jetbrains
     remote_src: true
 
 - name: Find extracted directory
   when: not (toolbox.stat.isdir is defined and toolbox.stat.isdir)
   ansible.builtin.find:
-    paths: /tmp/jetbrains-toolbox-install
+    paths: /home/{{ user }}/.jetbrains
     patterns: "*jetbrains*"
     file_type: directory
   register: toolbox_dir
@@ -37,11 +37,6 @@
     - toolbox_dir.files | length > 0
   ansible.builtin.command:
     cmd: "{{ toolbox_dir.files[0].path }}/bin/jetbrains-toolbox"
-
-- name: Clean up temporary JetBrains Toolbox directory
-  ansible.builtin.file:
-    path: /tmp/jetbrains-toolbox-install
-    state: absent
 
 # VSCodium
 - name: Import VSCodium key
