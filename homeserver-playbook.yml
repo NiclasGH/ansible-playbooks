@@ -1,0 +1,58 @@
+- name: Setup Homeserver Environment
+  hosts: homeserver
+  roles:
+    - role: common-base
+    - role: common-fonts
+    - role: common-coding-base
+    - role: server-security
+  vars:
+    user: "{{ ansible_user }}"
+  tasks:
+    - name: Install Ansible
+      ansible.builtin.package:
+        name: ansible
+        become: true
+        state: present
+
+      # === WIREGUARD
+    - name: Install Wireguard
+      ansible.builtin.package:
+        name: ansible
+        become: true
+        state: present
+
+    - name: Ensure WireGuard config directory exists
+      ansible.builtin.file:
+        path: /etc/wireguard
+        state: directory
+        owner: root
+        group: root
+        mode: "0700"
+
+    - name: Add example wg0 config
+      ansible.builtin.copy:
+        dest: /etc/wireguard/wg0.conf
+        owner: root
+        group: root
+        mode: "0600"
+        force: false
+        content: |
+          [Interface]
+          Address = 192.168.198.1/32
+          ListenPort = 51820
+          PrivateKey = <prv-key>
+          MTU = 1450
+          PostUp = 
+          PreDown = 
+          PostDown = 
+          Table = auto
+
+          # client 1
+          [Peer]
+          PublicKey = <client-pubkey>
+          AllowedIPs = 192.168.198.2/32
+
+    - name: Enable wg-quick@wg0 at boot
+      ansible.builtin.systemd:
+        name: wg-quick@wg0
+        enabled: true
