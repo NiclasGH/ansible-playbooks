@@ -9,6 +9,8 @@ cat <<EOF > inventory.ini
 
 [server]
 
+[homserver]
+
 [desktop]
 EOF
 
