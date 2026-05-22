@@ -9,7 +9,7 @@ cat <<EOF > inventory.ini
 
 [server]
 
-[homserver]
+[homeserver]
 
 [desktop]
 EOF

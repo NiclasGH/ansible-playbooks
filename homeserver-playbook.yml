@@ -11,15 +11,15 @@
     - name: Install Ansible
       ansible.builtin.package:
         name: ansible
-        become: true
         state: present
+      become: true
 
       # === WIREGUARD
     - name: Install Wireguard
       ansible.builtin.package:
         name: ansible
-        become: true
         state: present
+      become: true
 
     - name: Ensure WireGuard config directory exists
       ansible.builtin.file:
