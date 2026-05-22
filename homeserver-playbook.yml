@@ -14,6 +14,11 @@
         state: present
       become: true
 
+    - name: Clone ansible playbooks
+      ansible.builtin.git:
+        dest: /home/{{ user }}/ansible-playbooks
+        repo: 'git@github.com:NiclasGH/ansible-playbooks.git'
+
       # === WIREGUARD
     - name: Install Wireguard
       ansible.builtin.package:
@@ -59,3 +64,8 @@
         name: wg-quick@wg0.service
         enabled: true
       become: true
+
+    - name: Clone homeserver compose
+      ansible.builtin.git:
+        dest: /home/{{ user }}/homeserver-compose
+        repo: 'git@github.com:NiclasGH/homeserver-compose.git'
