@@ -3,6 +3,7 @@
 - name: Install docker
   ansible.builtin.script:
     cmd: docker.sh
+  become: true
 
 - name: Add docker to autostart
   ansible.builtin.systemd_service:

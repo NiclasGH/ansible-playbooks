@@ -91,8 +91,9 @@
 
 - name: Install nvim
   community.general.snap:
-    name:
-      - nvim
+    name: nvim
+    classic: true
+  become: true
 
 - name: Install nvim settings
   ansible.builtin.git:

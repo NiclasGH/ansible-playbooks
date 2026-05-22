@@ -28,6 +28,9 @@ ansible-playbook -i inventory.ini desktop-playbook.yaml --ask-become-pass
 ansible-playbook -i inventory.ini server-playbook.yaml --ask-become-pass
 ```
 
+### Troubleshooting
+For become you need to provide the root password. Some distros dont give root a password by default
+
 ## Roles
 Common supports Debian and Fedora \
 Desktop supports Fedora \

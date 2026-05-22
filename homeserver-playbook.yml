@@ -1,19 +1,5 @@
 - name: Setup Homeserver Environment
   hosts: homeserver
-  pre_tasks:
-    - name: Validate sudo/become works on target
-      block:
-        - name: Run privileged identity check
-          ansible.builtin.command: id -u
-          become: true
-          changed_when: false
-      rescue:
-        - name: Fail early when sudo is unavailable
-          ansible.builtin.fail:
-            msg: >-
-              Sudo/become failed before role execution. Verify the SSH user has sudo
-              permissions on the target, confirm the become password is correct
-              (run with -K), and test 'sudo -l' directly on the host.
   roles:
     - role: common-base
     - role: common-fonts
@@ -42,6 +28,7 @@
         owner: root
         group: root
         mode: "0700"
+      become: true
 
     - name: Add example wg0 config
       ansible.builtin.copy:
@@ -65,8 +52,10 @@
           [Peer]
           PublicKey = <client-pubkey>
           AllowedIPs = 192.168.198.2/32
+      become: true
 
     - name: Enable wg-quick@wg0 at boot
       ansible.builtin.systemd:
-        name: wg-quick@wg0
+        name: wg-quick@wg0.service
         enabled: true
+      become: true
