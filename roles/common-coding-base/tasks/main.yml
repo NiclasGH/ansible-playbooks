@@ -35,14 +35,13 @@
     state: absent
     path: /tmp/rust.sh
 
-- name: Add cargo bin to PATH
-  when: not (rust.stat.exists is defined and rust.stat.exists)
-  ansible.builtin.blockinfile:
-    path: /home/{{ user }}/.zshrc
-    append_newline: true
-    prepend_newline: true
-    block: |
-      export PATH=$PATH:$HOME/.cargo/bin
+- name: Install rust zshrc.d settings
+  ansible.builtin.copy:
+    src: zshrc.d/20-rust.zsh
+    dest: /home/{{ user }}/.zshrc.d/20-rust.zsh
+    owner: "{{ user }}"
+    group: "{{ user }}"
+    mode: "0644"
 
   # Install after rust, to be able to install treesitter-cli
 - name: Import debian specific coding tools

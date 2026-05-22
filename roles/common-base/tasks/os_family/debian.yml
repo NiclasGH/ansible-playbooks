@@ -65,17 +65,32 @@
     regexp: '^plugins=\(git\)'
     line: plugins=(git colorize zsh-autosuggestions zsh-syntax-highlighting)
 
-- name: Default zsh settings
+- name: Ensure .zshrc.d exists
+  ansible.builtin.file:
+    path: /home/{{ user }}/.zshrc.d
+    state: directory
+    owner: "{{ user }}"
+    group: "{{ user }}"
+    mode: "0755"
+
+- name: Ensure zshrc loads .zshrc.d snippets
   ansible.builtin.blockinfile:
     path: /home/{{ user }}/.zshrc
     append_newline: true
     prepend_newline: true
+    marker: "# {mark} ANSIBLE ZSHRC D"
     block: |
-      source <(fzf --zsh)
-      source ~/.bash_device
-      source ~/.bash_aliases
-      source ~/.bash_functions
-      export PATH=$PATH:$HOME/.local/bin
+      for f in ~/.zshrc.d/*.zsh(N); do
+        source "$f"
+      done
+
+- name: Install base zshrc.d settings
+  ansible.builtin.copy:
+    src: zshrc.d/10-base.zsh
+    dest: /home/{{ user }}/.zshrc.d/10-base.zsh
+    owner: "{{ user }}"
+    group: "{{ user }}"
+    mode: "0644"
 
 # Nvim
 - name: Install nvim dependencies
@@ -99,5 +114,4 @@
   ansible.builtin.git:
     dest: /home/{{ user }}/.config/nvim
     repo: 'https://github.com/NiclasGH/nvim-conf.git'
-
 
