@@ -17,7 +17,7 @@
       # === WIREGUARD
     - name: Install Wireguard
       ansible.builtin.package:
-        name: ansible
+        name: wireguard
         state: present
       become: true
 
